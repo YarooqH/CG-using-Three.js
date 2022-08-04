@@ -1,0 +1,15 @@
+{
+  "name": "three",
+  "version": "1.0.0",
+  "description": "Computer Graphics",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "qray",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "three": "^0.143.0",
+    "three.js": "^0.77.0"
+  }
+}
