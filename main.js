@@ -45,7 +45,7 @@ const cube = new THREE.Mesh( geometry, material );
 // scene.add(line);
 
 // const cloud = new THREE.Group();
-const cloudClr = '#f3da69';
+const cloudClr = '#686564';
 
 // gui.addMaterial('material', cloudClr);
 
@@ -72,8 +72,20 @@ const minicloud3 = new THREE.Mesh(
 )
 minicloud3.position.set(1.5,0.05,0);
 
+const minicloud4 = new THREE.Mesh(
+  new THREE.CircleGeometry( 0.59, 32),
+  new THREE.MeshBasicMaterial({ color: cloudClr })
+)
+minicloud4.position.set(0.5,-0.5,0);
+
+const minicloud5 = new THREE.Mesh(
+  new THREE.CircleGeometry( 0.59, 32),
+  new THREE.MeshBasicMaterial({ color: cloudClr })
+)
+minicloud5.position.set(1.2,-0.4,0);
+
 const cloudGrp = new THREE.Group();
-cloudGrp.add(minicloud1, minicloud2, minicloud3,cloud);
+cloudGrp.add(minicloud1, minicloud2, minicloud3, minicloud4, minicloud5, cloud);
 scene.add(cloudGrp);
 cloudGrp.position.set(-3,0,0);
 
