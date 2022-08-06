@@ -9,7 +9,9 @@
   "author": "qray",
   "license": "UNLICENSED",
   "dependencies": {
+    "dat.gui": "^0.7.9",
     "three": "^0.143.0",
+    "three-dat.gui": "^2.0.7",
     "three.js": "^0.77.0"
   },
   "type": "module"
