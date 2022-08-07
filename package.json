@@ -12,7 +12,8 @@
     "dat.gui": "^0.7.9",
     "three": "^0.143.0",
     "three-dat.gui": "^2.0.7",
-    "three.js": "^0.77.0"
+    "three.js": "^0.77.0",
+    "threex-domevents": "^1.0.0"
   },
   "type": "module"
 }

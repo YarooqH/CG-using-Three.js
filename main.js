@@ -1,6 +1,10 @@
 // import * as THREE from 'three';
 import * as THREE from 'three';
-import { OrbitControls } from './node_modules/three/examples/jsm/controls/OrbitControls.js';
+import { OrbitControls } from './js/OrbitControls.js';
+// import * as THREEx from './js/threex.domevents.js';
+// import * as THREEx from 'threex-domevents';
+
+// const THREEx = require('threex-domevents');
 
 // const dat = require('dat.gui');
 // import { OrbitControls } from 'OrbitControls.js';
@@ -8,6 +12,8 @@ import { OrbitControls } from './node_modules/three/examples/jsm/controls/OrbitC
 // import * from 'three-dat.gui'; // Import initialization method
 // init(Dat);
 // var gui = new Dat.GUI();
+
+
 
 
 const camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 0.1, 1000 );
@@ -142,6 +148,10 @@ cloudRight.position.set(5,0.3,0);
 cloudLeft.scale.set(1.2,1.2,0);
 cloudRight.scale.set(1.2,1.2,0);
 
+// const domEvents = new THREEx.DomEvents(camera, renderer.domElement);
+// domEvents.addEventListener(cloudRight, 'click', function(event){
+//   console.log('clicked');
+// })
 
 // cloudLeft.position.set(-0.6,0,0);
 
