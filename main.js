@@ -101,16 +101,49 @@ cloud3.position.set(-3,1.2,0);
 
 const cloudGroup2 = new THREE.Group();
 cloudGroup2.add(cloudGrp, cloud2, cloud3);
-scene.add(cloudGroup2);
+// scene.add(cloudGroup2);
 cloudGroup2.position.set(-4.29,1.95,0);
 cloudGroup2.scale.set(0.7,0.7,0);
 
 
 const cloudGroup3 = cloudGroup2.clone();
-scene.add( cloudGroup3 );
+// scene.add( cloudGroup3 );
 cloudGroup3.scale.set(0.7,0.7, 0);
 // cloudGroup3.rotation.y += 250;
-cloudGroup3.position.set(6,1,0);
+cloudGroup3.rotateZ(3.2);
+cloudGroup3.position.set(-5.6,2.5,0);
+
+const cloudGrpLeft = new THREE.Group();
+cloudGrpLeft.add(cloudGroup2, cloudGroup3);
+scene.add(cloudGrpLeft);
+cloudGrpLeft.position.set(-0.85,0.3,0);
+// cloudGrpLeft.
+
+const cloudGroup4 = cloudGrpLeft.clone();
+// scene.add( cloudGroup4 );
+cloudGroup4.position.set(3.1,0.3,0);
+
+const cloudGroup5 = cloudGrpLeft.clone();
+// scene.add( cloudGroup5 );
+cloudGroup5.position.set(5,0.3,0);
+
+
+
+const cloudLeft = new THREE.Group();
+cloudLeft.add(cloudGroup4, cloudGroup5);
+scene.add(cloudLeft);
+
+
+
+const cloudRight = cloudLeft.clone();
+scene.add(cloudRight);
+cloudRight.position.set(5,0.3,0);
+
+cloudLeft.scale.set(1.2,1.2,0);
+cloudRight.scale.set(1.2,1.2,0);
+
+
+// cloudLeft.position.set(-0.6,0,0);
 
 // Create a texture loader so we can load our image file
 var loader = new THREE.TextureLoader();
@@ -133,9 +166,10 @@ mesh.position.set(0,0,-0.3)
 // add the image to the scene
 scene.add(mesh);
 
+let lightIntensity = 1;
 
 // Add a point light with #fff color, .7 intensity, and 0 distance
-var light = new THREE.PointLight( 0xffffff, 1, 0 );
+var light = new THREE.PointLight( 0xffffff, lightIntensity , 0 );
 
 // Specify the light's position
 light.position.set(1, 1, 100 );
