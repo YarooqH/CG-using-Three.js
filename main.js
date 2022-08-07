@@ -86,8 +86,63 @@ minicloud5.position.set(1.2,-0.4,0);
 
 const cloudGrp = new THREE.Group();
 cloudGrp.add(minicloud1, minicloud2, minicloud3, minicloud4, minicloud5, cloud);
-scene.add(cloudGrp);
+// scene.add(cloudGrp);
 cloudGrp.position.set(-3,0,0);
+
+const cloud2 = cloudGrp.clone();
+// scene.add( cloud2 );
+cloud2.scale.set(1.1,1.1, 0);
+cloud2.position.set(-1,0.6,0);
+
+const cloud3 = cloudGrp.clone();
+// scene.add( cloud3 );
+cloud3.scale.set(1.5,1.5, 0);
+cloud3.position.set(-3,1.2,0);
+
+const cloudGroup2 = new THREE.Group();
+cloudGroup2.add(cloudGrp, cloud2, cloud3);
+scene.add(cloudGroup2);
+cloudGroup2.position.set(-4.29,1.95,0);
+cloudGroup2.scale.set(0.7,0.7,0);
+
+
+const cloudGroup3 = cloudGroup2.clone();
+scene.add( cloudGroup3 );
+cloudGroup3.scale.set(0.7,0.7, 0);
+// cloudGroup3.rotation.y += 250;
+cloudGroup3.position.set(6,1,0);
+
+// Create a texture loader so we can load our image file
+var loader = new THREE.TextureLoader();
+
+// Load an image file into a custom material
+var imgMaterial = new THREE.MeshLambertMaterial({
+  map: loader.load('./assets/background.jpg')
+});
+
+// create a plane geometry for the image with a width of 10
+// and a height that preserves the image's aspect ratio
+var imgGeometry = new THREE.PlaneGeometry(15, 10*.75);
+
+// combine our image geometry and material into a mesh
+var mesh = new THREE.Mesh(imgGeometry, imgMaterial);
+
+// set the position of the image mesh in the x,y,z dimensions
+mesh.position.set(0,0,-0.3)
+
+// add the image to the scene
+scene.add(mesh);
+
+
+// Add a point light with #fff color, .7 intensity, and 0 distance
+var light = new THREE.PointLight( 0xffffff, 1, 0 );
+
+// Specify the light's position
+light.position.set(1, 1, 100 );
+
+// Add the light to the scene
+scene.add(light)
+
 
 
 
@@ -106,7 +161,7 @@ cloudGrp.position.set(-3,0,0);
 // scene.add(obj)
 
 
-camera.position.z = 10;
+camera.position.z = 3.5;
 
 function animate() {
   requestAnimationFrame( animate );
