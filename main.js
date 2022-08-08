@@ -3,6 +3,8 @@ import { OrbitControls } from "./js/OrbitControls.js";
 // import * as THREEx from "./js/threex.domevents.js";
 // import * as initializeDomEvents from "./js/threex.domevents.js";
 import {initializeDomEvents} from "./js/threex.domevents.js";
+import * as TWEEN from './js/tween.esm.js';
+// import { Tween } from '@tweenjs/tween.js';
 
 // var initializeDomEvents = require('./js/threex.domevents.js');
 
@@ -25,16 +27,51 @@ const controls = new OrbitControls( camera, renderer.domElement );
 controls.minDistance = 1;
 controls.maxDistance = 20;
 
-const geometry = new THREE.BoxGeometry( 1, 1, 1 );
-const material = new THREE.MeshBasicMaterial( { color: '#f3da69' });
-const cube = new THREE.Mesh( geometry, material );
-// scene.add( cube );
+const ring0 = new THREE.Mesh( new THREE.RingGeometry( 4.5, 4.6, 64 ), new THREE.MeshBasicMaterial( { color: '#ff1419', side: THREE.DoubleSide, transparent: true, opacity: 0.5 }) );
+
+const ring1 = new THREE.Mesh( new THREE.RingGeometry( 4.5, 4.6, 64 ), new THREE.MeshBasicMaterial( { color: '#fda016', side: THREE.DoubleSide, transparent: true, opacity: 0.5  }) );
+ring1.scale.set(0.98,0.98,0)
+
+const ring2 = new THREE.Mesh( new THREE.RingGeometry( 4.5, 4.6, 64 ), new THREE.MeshBasicMaterial( { color: '#fdfa15', side: THREE.DoubleSide, transparent: true, opacity: 0.5  }) );
+ring2.scale.set(0.96,0.96,0)
+
+const ring3 = new THREE.Mesh( new THREE.RingGeometry( 4.5, 4.6, 64 ), new THREE.MeshBasicMaterial( { color: '#76d442', side: THREE.DoubleSide, transparent: true, opacity: 0.5  }) );
+ring3.scale.set(0.94,0.94,0)
+
+const ring4 = new THREE.Mesh( new THREE.RingGeometry( 4.5, 4.6, 64 ), new THREE.MeshBasicMaterial( { color: '#00acf2', side: THREE.DoubleSide, transparent: true, opacity: 0.5  }) );
+ring4.scale.set(0.92,0.92,0)
+
+const ring5 = new THREE.Mesh( new THREE.RingGeometry( 4.5, 4.6, 64 ), new THREE.MeshBasicMaterial( { color: '#0973bd', side: THREE.DoubleSide, transparent: true, opacity: 0.5  }) );
+ring5.scale.set(0.90,0.90,0)
+
+const ring6 = new THREE.Mesh( new THREE.RingGeometry( 4.5, 4.6, 64 ), new THREE.MeshBasicMaterial( { color: '#67318e', side: THREE.DoubleSide, transparent: true, opacity: 0.5  }) );
+ring6.scale.set(0.8809,0.8809,0)
+
+const rainbow = new THREE.Group();
+rainbow.add( ring0, ring1, ring2, ring3, ring4, ring5, ring6 );
+
+// scene.add( rainbow );
+
+rainbow.scale.set(2,1.4,0)
+rainbow.position.set(0,-3,-0.25);
+
+// ring0.material.opacity = 0.3;
+// ring0.material.transparent = true;
+
+
 
 const cloudClr = '#686564';
 
+const sunGeometry = new THREE.CircleGeometry( 1, 32 );
+const sunMaterial = new THREE.MeshBasicMaterial( { color: 'yellow' });
+const sun = new THREE.Mesh( sunGeometry, sunMaterial );
+scene.add( sun );
+sun.position.set(-6,3.1,-0.4)
+
+
 const cloudGeometry = new THREE.CircleGeometry( 0.5, 32 );
 const cloudMaterial = new THREE.MeshBasicMaterial( { color: cloudClr });
-const cloud = new THREE.Mesh( cloudGeometry, cloudMaterial );
+const minicloud = new THREE.Mesh( cloudGeometry, cloudMaterial );
 // scene.add( cloud );
 
 const minicloud1 = new THREE.Mesh(
@@ -68,7 +105,7 @@ const minicloud5 = new THREE.Mesh(
 minicloud5.position.set(1.2,-0.4,0);
 
 const cloudGrp = new THREE.Group();
-cloudGrp.add(minicloud1, minicloud2, minicloud3, minicloud4, minicloud5, cloud);
+cloudGrp.add(minicloud1, minicloud2, minicloud3, minicloud4, minicloud5, minicloud);
 // scene.add(cloudGrp);
 cloudGrp.position.set(-3,0,0);
 
@@ -175,13 +212,14 @@ rain.position.set(-6.5,4,-0.3);
 
 // }
 
-let lightIntensity = 1;
+// let lightIntensity = 1;
 
 // Add a point light with #fff color, .7 intensity, and 0 distance
-var light = new THREE.PointLight( 0xffffff, lightIntensity , 0 );
+var light = new THREE.PointLight( 0xffffff, 1 , 0 );
 
 // Specify the light's position
 light.position.set(1, 1, 100 );
+// light.intensity.set(0.7);
 
 // Add the light to the scene
 scene.add(light)
@@ -195,68 +233,102 @@ const domEvents = new THREEx.DomEvents(camera, renderer.domElement);
 domEvents.addEventListener(mesh, 'click', event =>{
     console.log('click');
     rainCheck = !rainCheck;
-    rainFunction();
-    // if(!rainCheck){
-        
-    //     // elapsedTime = 0;
-    // } else if (rainCheck) {
-       
-    // }
-//    light.intensity = 0.5;
-    // lightIntensity = lightIntensity === 1 ? 0.5 : 1;
-    // letItRain();
-
+    cloudFunction(rainCheck);
 });
+
 camera.position.z = 3;
-let newTime = -3;
+
+let newTime = -4;
 let clock = new THREE.Clock();
 let elapsedTime;
+let rainAudio, natureAudio;
+var intoScreenLeft, outOfScreenLeft, intoScreenRight, outOfScreenRight, sunLightDim, sunLightBright;
+let rainCount = 0;
 
-const rainFunction = () => {
-    if(rainCheck){
-      
-      // console.log(clock.startTime());
-      // newTime = 4;
-      // setInterval(() => {
-      //   newTime = newTime + 0.001
-      // }, 200);
-      // console.log(newTime);
-      // rain.position.y = newTime * (-1);
-      cloudLeft.position.x = 0;
-      cloudRight.position.x = 10;
-      elapsedTime = clock.getElapsedTime();
-      rain.position.y = (elapsedTime + newTime) * (-1.5);
-      if(elapsedTime > 8){
-        clock = new THREE.Clock();
-        newTime = 4;
-      }  
 
-      // var danh = clock.start();
-      // var sTime = clock.startTime();
-      // var delta = clock.
-      // console.log(danh, sTime);
-      // rain.position.y = delta * -1;    
-      
-      light.intensity = 0.5;
-      // rainCheck = false;
-    } else {
-      // cloudLeft.position.x = -10;
-      light.intensity = 1;
+rainAudio = new Audio('./assets/sounds/rain.mp3');
+natureAudio = new Audio('./assets/sounds/nature.mp3');
+
+// .start();
+
+intoScreenLeft = new TWEEN.Tween(cloudLeft.position)
+.to({x: 0}, 1000)
+.easing(TWEEN.Easing.Quadratic.InOut)
+
+outOfScreenLeft = new TWEEN.Tween(cloudLeft.position)
+.to({x: -15}, 1000)
+.easing(TWEEN.Easing.Quadratic.InOut)
+
+intoScreenRight = new TWEEN.Tween(cloudRight.position)
+.to({x: 9}, 1000)
+.easing(TWEEN.Easing.Quadratic.InOut)
+
+outOfScreenRight = new TWEEN.Tween(cloudRight.position)
+.to({x: 20}, 1000)
+.easing(TWEEN.Easing.Quadratic.InOut)
+
+sunLightDim = new TWEEN.Tween(light.position)
+.to({z: 2}, 1000)
+.easing(TWEEN.Easing.Quadratic.InOut)
+
+sunLightBright = new TWEEN.Tween(light.position)
+.to({z: 100}, 1000)
+.easing(TWEEN.Easing.Quadratic.InOut)
+
+const rainFunction = (rainCheck) => {
+  if(rainCheck){
+    elapsedTime = clock.getElapsedTime();
+    rain.position.y = (elapsedTime + newTime) * (-2);
+    if(elapsedTime > 8){
       clock = new THREE.Clock();
-      // newTime = clock.stop();
-      rain.position.y = 5;
-      cloudLeft.position.set(-15,0,0);
-      cloudRight.position.set(20,0.3,0);
-      newTime = -3;
-      // elapsedTime = clock.elapsedTime(0);
-      // rain.postion.set(0,4,0);
-      // rainCheck = true;
+      newTime = 4;
+    } 
+  } else {
+    clock = new THREE.Clock();
+    rain.position.y = 10;
+    newTime = -4;
+  }
+
+}
+
+const cloudFunction = (rainCheck) => {
+    if(rainCheck){
+      console.log("intoScreen")
+      intoScreenLeft.start();
+      intoScreenRight.start();
+      sunLightDim.start();
+      natureAudio.pause();
+      rainCount = rainCount + 1;
+      if(rainCount > 1){
+        scene.remove(rainbow)
+      }
+      setTimeout(() => {
+        rainAudio.play();
+      }, 5000);
+
+    } else {    
+      console.log("outOfScreen")
+      outOfScreenLeft.start();
+      outOfScreenRight.start();
+      sunLightBright.start();
+      rainAudio.pause();
+      if(rainCount > 0){
+        scene.add(rainbow);
+        rainCount = 1;
+      }
+      setTimeout(() => {
+        natureAudio.play();
+        natureAudio.volume = 0.05;
+      }, 3000);
     }
 }
 
 
 
-function animate() {
+
+
+
+function animate(t) {
     requestAnimationFrame( animate );
     // let elapsedTime = clock.getElapsedTime();
     // rain.position.y = elapsedTime * (-0.5);
@@ -265,7 +337,8 @@ function animate() {
         // } 
         // elapsedTime = clock.getElapsedTime();
         // rain.position.y = elapsedTime * (-1);
-        rainFunction();
+        TWEEN.update();
+        rainFunction(rainCheck);
 
         
     // rain.rotateZ()
@@ -277,4 +350,3 @@ function animate() {
 };
 
 animate();
-
