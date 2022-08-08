@@ -64,7 +64,7 @@
 
 //
 
-function initializeDomEvents(THREE, THREEx) {
+module.exports = function initializeDomEvents(THREE, THREEx) {
 
 
 /** @namespace */
@@ -455,5 +455,3 @@ THREEx.DomEvents.prototype._onTouchEvent	= function(eventName, domEvent)
 
 return THREEx
 }
-
-export {initializeDomEvents}

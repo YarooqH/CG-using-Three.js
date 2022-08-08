@@ -1,16 +1,19 @@
 {
   "name": "three",
   "version": "1.0.0",
-  "description": "",
+  "description": "Computer Graphics",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
   "author": "qray",
-  "license": "ISC",
+  "license": "UNLICENSED",
   "dependencies": {
+    "dat.gui": "^0.7.9",
     "three": "^0.143.0",
+    "three-dat.gui": "^2.0.7",
+    "three.js": "^0.77.0",
     "threex-domevents": "^1.0.0"
-  }
+  },
+  "type": "module"
 }

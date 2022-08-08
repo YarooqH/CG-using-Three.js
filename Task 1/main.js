@@ -1,25 +1,32 @@
-import * as THREE from './js/three.module.js';
-import { OrbitControls } from "./js/OrbitControls.js";
-// import * as THREEx from "./js/threex.domevents.js";
-// import * as initializeDomEvents from "./js/threex.domevents.js";
-import {initializeDomEvents} from "./js/threex.domevents.js";
+// import * as THREE from 'three';
+import * as THREE from 'three';
+import { OrbitControls } from './js/OrbitControls.js';
+// import * as THREEx from './js/threex.domevents.js';
+// import * as THREEx from 'threex-domevents';
 
-// var initializeDomEvents = require('./js/threex.domevents.js');
+// const THREEx = require('threex-domevents');
+
+// const dat = require('dat.gui');
+// import { OrbitControls } from 'OrbitControls.js';
+
+// import * from 'three-dat.gui'; // Import initialization method
+// init(Dat);
+// var gui = new Dat.GUI();
+
+
+
 
 const camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 0.1, 1000 );
 camera.position.set( 0, 0, 0);
 camera.lookAt( 0, 0, 0 );
+
+// const fpc = THREE.FirstPersonControls( camera, document.documentElement );
 
 const scene = new THREE.Scene();
 
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
 document.body.appendChild( renderer.domElement );
-
-window.addEventListener( 'resize', () => {
-    renderer.setSize(window.innerWidth, window.innerHeight)
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-})
 
 const controls = new OrbitControls( camera, renderer.domElement );
 controls.minDistance = 1;
@@ -30,7 +37,23 @@ const material = new THREE.MeshBasicMaterial( { color: '#f3da69' });
 const cube = new THREE.Mesh( geometry, material );
 // scene.add( cube );
 
+// const mat = new THREE.LineBasicMaterial({ color: 'pink' });
+// const points = [];
+// // points.push(new THREE.Vector2(-, 0));
+// points.push(new THREE.Vector2(-5,-10));
+// points.push(new THREE.Vector2(-5, 10));
+// points.push(new THREE.Vector2(5, -10));
+// points.push(new THREE.Vector2(5, 10));
+
+// const geo = new THREE.BufferGeometry().setFromPoints(points);
+
+// const line = new THREE.Line(geo, mat);
+// scene.add(line);
+
+// const cloud = new THREE.Group();
 const cloudClr = '#686564';
+
+// gui.addMaterial('material', cloudClr);
 
 const cloudGeometry = new THREE.CircleGeometry( 0.5, 32 );
 const cloudMaterial = new THREE.MeshBasicMaterial( { color: cloudClr });
@@ -98,8 +121,8 @@ cloudGroup3.position.set(-5.6,2.5,0);
 
 const cloudGrpLeft = new THREE.Group();
 cloudGrpLeft.add(cloudGroup2, cloudGroup3);
-// scene.add(cloudGrpLeft);
-cloudGrpLeft.position.set(0,0.3,0);
+scene.add(cloudGrpLeft);
+cloudGrpLeft.position.set(-0.85,0.3,0);
 // cloudGrpLeft.
 
 const cloudGroup4 = cloudGrpLeft.clone();
@@ -110,18 +133,27 @@ const cloudGroup5 = cloudGrpLeft.clone();
 // scene.add( cloudGroup5 );
 cloudGroup5.position.set(5,0.3,0);
 
+
+
 const cloudLeft = new THREE.Group();
-cloudLeft.add(cloudGroup4, cloudGroup5, cloudGrpLeft);
+cloudLeft.add(cloudGroup4, cloudGroup5);
 scene.add(cloudLeft);
+
+
 
 const cloudRight = cloudLeft.clone();
 scene.add(cloudRight);
-
-cloudLeft.position.set(-15,0,0);
-cloudRight.position.set(20,0.3,0);
+cloudRight.position.set(5,0.3,0);
 
 cloudLeft.scale.set(1.2,1.2,0);
 cloudRight.scale.set(1.2,1.2,0);
+
+// const domEvents = new THREEx.DomEvents(camera, renderer.domElement);
+// domEvents.addEventListener(cloudRight, 'click', function(event){
+//   console.log('clicked');
+// })
+
+// cloudLeft.position.set(-0.6,0,0);
 
 // Create a texture loader so we can load our image file
 var loader = new THREE.TextureLoader();
@@ -139,41 +171,10 @@ var imgGeometry = new THREE.PlaneGeometry(15, 10*.75);
 var mesh = new THREE.Mesh(imgGeometry, imgMaterial);
 
 // set the position of the image mesh in the x,y,z dimensions
-mesh.position.set(0,0,-0.5);
+mesh.position.set(0,0,-0.3)
 
 // add the image to the scene
 scene.add(mesh);
-
-// const letItRain = () => {
-const rainParticles = new THREE.BufferGeometry();
-const rainParticleCount = 5000;
-
-const rainArray = new Float32Array(rainParticleCount * 2);
-// rainParticles.position.set(0,0,0);
-
-for (let i = 0; i < rainParticleCount; i++) {
-    rainArray[i * 2] = Math.random() * 15 - 1;
-    rainArray[i * 2 + 1] = Math.random() * 30 - 1;
-}
-
-rainParticles.setAttribute('position', new THREE.BufferAttribute(rainArray, 2));
-// rainParticles.setAttribute('width', new THREE.BufferAttribute(rainArray, 1));
-
-const rainMaterial = new THREE.PointsMaterial({
-    color: 'rgb(89, 126, 248)',
-    size: 4,
-    blending: THREE.AdditiveBlending,
-    transparent: true,
-    depthWrite: false,
-    sizeAttenuation: false
-});
-
-const rain = new THREE.Points(rainParticles, rainMaterial);
-scene.add(rain);
-
-rain.position.set(-6.5,4,-0.3);
-
-// }
 
 let lightIntensity = 1;
 
@@ -186,95 +187,33 @@ light.position.set(1, 1, 100 );
 // Add the light to the scene
 scene.add(light)
 
-let rainCheck = false;
-
-var THREEx = {}
-initializeDomEvents(THREE, THREEx)
-
-const domEvents = new THREEx.DomEvents(camera, renderer.domElement);
-domEvents.addEventListener(mesh, 'click', event =>{
-    console.log('click');
-    rainCheck = !rainCheck;
-    rainFunction();
-    // if(!rainCheck){
-        
-    //     // elapsedTime = 0;
-    // } else if (rainCheck) {
-       
-    // }
-//    light.intensity = 0.5;
-    // lightIntensity = lightIntensity === 1 ? 0.5 : 1;
-    // letItRain();
-
-});
-camera.position.z = 3;
-let newTime = -3;
-let clock = new THREE.Clock();
-let elapsedTime;
-
-const rainFunction = () => {
-    if(rainCheck){
-      
-      // console.log(clock.startTime());
-      // newTime = 4;
-      // setInterval(() => {
-      //   newTime = newTime + 0.001
-      // }, 200);
-      // console.log(newTime);
-      // rain.position.y = newTime * (-1);
-      cloudLeft.position.x = 0;
-      cloudRight.position.x = 10;
-      elapsedTime = clock.getElapsedTime();
-      rain.position.y = (elapsedTime + newTime) * (-1.5);
-      if(elapsedTime > 8){
-        clock = new THREE.Clock();
-        newTime = 4;
-      }  
-
-      // var danh = clock.start();
-      // var sTime = clock.startTime();
-      // var delta = clock.
-      // console.log(danh, sTime);
-      // rain.position.y = delta * -1;    
-      
-      light.intensity = 0.5;
-      // rainCheck = false;
-    } else {
-      // cloudLeft.position.x = -10;
-      light.intensity = 1;
-      clock = new THREE.Clock();
-      // newTime = clock.stop();
-      rain.position.y = 5;
-      cloudLeft.position.set(-15,0,0);
-      cloudRight.position.set(20,0.3,0);
-      newTime = -3;
-      // elapsedTime = clock.elapsedTime(0);
-      // rain.postion.set(0,4,0);
-      // rainCheck = true;
-    }
-}
 
 
+
+
+// const geometry1 = new THREE.CircleGeometry( 1, 32 );
+// const material1 = new THREE.MeshBasicMaterial( { color: 'white' } );
+// const circle = new THREE.Mesh( geometry1, material1 );
+// scene.add( circle );
+// circle.position.set(0,5,0);
+
+
+// const axesHelper = new THREE.AxesHelper( 5 );
+// scene.add( axesHelper );
+
+// const obj = new THREE.Object3D.add(cube, circle);
+// scene.add(obj)
+
+
+camera.position.z = 3.5;
 
 function animate() {
-    requestAnimationFrame( animate );
-    // let elapsedTime = clock.getElapsedTime();
-    // rain.position.y = elapsedTime * (-0.5);
-    // if(rain.position.y < -3) {
-        //     rain.position.y = 3;
-        // } 
-        // elapsedTime = clock.getElapsedTime();
-        // rain.position.y = elapsedTime * (-1);
-        rainFunction();
+  requestAnimationFrame( animate );
 
-        
-    // rain.rotateZ()
-    
-    // cube.rotation.x += 0.03;
-    // cube.rotation.y += 0.01;
-    
+  // cube.rotation.x += 0.03;
+  // cube.rotation.y += 0.01;
+
   renderer.render( scene, camera );
 };
 
 animate();
-
