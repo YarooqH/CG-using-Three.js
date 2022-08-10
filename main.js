@@ -181,6 +181,14 @@ mesh.position.set(0,0,-0.5);
 // add the image to the scene
 scene.add(mesh);
 
+var flagLoader = new THREE.TextureLoader();
+var flagMaterial = new THREE.MeshBasicMaterial({ map: flagLoader.load( './assets/pak-flag.png' ), transparent: true, opacity:1 });
+var flagGeometry = new THREE.PlaneGeometry(5, 10*.4);
+var flag = new THREE.Mesh(flagGeometry, flagMaterial);
+flag.position.set(0,-1.6,-0.2);
+flag.scale.set(0.8,0.8,0)
+scene.add(flag);
+
 // const letItRain = () => {
 const rainParticles = new THREE.BufferGeometry();
 const rainParticleCount = 5000;
@@ -230,26 +238,39 @@ var THREEx = {}
 initializeDomEvents(THREE, THREEx)
 
 const domEvents = new THREEx.DomEvents(camera, renderer.domElement);
-domEvents.addEventListener(mesh, 'click', event =>{
+domEvents.addEventListener(sun, 'click', event =>{
     console.log('click');
     rainCheck = !rainCheck;
     cloudFunction(rainCheck);
 });
 
+// const flagClick = new THREEx.DomEvents(camera, renderer.domElement);
+
 camera.position.z = 3;
 
 let newTime = -4;
 let clock = new THREE.Clock();
-let elapsedTime;
-let rainAudio, natureAudio;
+let elapsedTime, anthemFlag = false;
+let rainAudio, natureAudio, anthemAudio;
 var intoScreenLeft, outOfScreenLeft, intoScreenRight, outOfScreenRight, sunLightDim, sunLightBright;
 let rainCount = 0;
 
 
 rainAudio = new Audio('./assets/sounds/rain.mp3');
 natureAudio = new Audio('./assets/sounds/nature.mp3');
+anthemAudio = new Audio('./assets/sounds/pak-anthem.mp3');
 
-// .start();
+domEvents.addEventListener(mesh, 'click', event =>{
+  if(anthemFlag){
+    anthemAudio.pause();
+    anthemFlag = false;
+  } else {
+    anthemAudio.play();
+    anthemFlag = true;
+  }
+  // console.log('PAKISTAN ZINDABDA');
+  // anthemAudio.play();
+});
 
 intoScreenLeft = new TWEEN.Tween(cloudLeft.position)
 .to({x: 0}, 1000)
