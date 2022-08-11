@@ -41,27 +41,45 @@ scene.add(flagCloth);
 
 flagCloth.position.set(-2,0,0);
 
-// make crescent shape
-const crescent = new THREE.Shape();
-crescent.moveTo( 0, 0 );
-crescent.absarc( 0, 0, 0.45, 0, Math.PI * 12 );
-const crescentGeometry = new THREE.ShapeGeometry( crescent );
-const crescentMaterial = new THREE.MeshBasicMaterial( { color: 'white' });
-const crescentMesh = new THREE.Mesh( crescentGeometry, crescentMaterial );
-crescentMesh.position.set(0,0,0.1);
-// scene.add(crescentMesh);
+const curve = new THREE.EllipseCurve(
+	0,  0,            // ax, aY
+	0.5, 0.7,           // xRadius, yRadius
+	0,  1 * Math.PI,  // aStartAngle, aEndAngle
+	true,            // aClockwise
+	5                 // aRotation
+);
 
-// make half moon
+const points = curve.getPoints( 100 );
+const geometry1 = new THREE.BufferGeometry().setFromPoints( points );
 
-const halfMoon = new THREE.Shape();
-halfMoon.moveTo( 0, 0 );
-halfMoon.absarc( 0, 0, 0.45, 0, Math.PI * 12 );
-const halfMoonGeometry = new THREE.ShapeGeometry( halfMoon );
-const halfMoonMaterial = new THREE.MeshBasicMaterial( { color: 'white' });
-const halfMoonMesh = new THREE.Mesh( halfMoonGeometry, halfMoonMaterial );
-halfMoonMesh.position.set(0,0,0.1);
-scene.add(halfMoonMesh);
+const material1 = new THREE.LineBasicMaterial( { color: 'white' } );
 
+// Create the final object to add to the scene
+const ellipse = new THREE.Line( geometry1, material1 );
+
+scene.add( ellipse );
+
+ellipse.scale.set(0.5,0.5,0);
+
+const curve1 = new THREE.EllipseCurve(
+	0,  0,            // ax, aY
+	0.5, 0.7,           // xRadius, yRadius
+	0,  1 * Math.PI,  // aStartAngle, aEndAngle
+	true,            // aClockwise
+	5                 // aRotation
+);
+
+const points1 = curve1.getPoints( 100 );
+const geometry11 = new THREE.BufferGeometry().setFromPoints( points1 );
+
+const material11 = new THREE.LineBasicMaterial( { color: 'white' } );
+
+// Create the final object to add to the scene
+const ellipse1 = new THREE.Line( geometry11, material11 );
+
+scene.add( ellipse1 );
+
+ellipse1.scale.set(0.3,0.3,0);
 
 function animate() {
     requestAnimationFrame( animate );
