@@ -74,7 +74,6 @@ const geometry11 = new THREE.BufferGeometry().setFromPoints( points1 );
 
 const material11 = new THREE.LineBasicMaterial( { color: 'white' } );
 
-// Create the final object to add to the scene
 const ellipse1 = new THREE.Line( geometry11, material11 );
 
 scene.add( ellipse1 );
