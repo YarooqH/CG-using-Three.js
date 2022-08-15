@@ -53,8 +53,6 @@ const points = curve.getPoints( 100 );
 const geometry1 = new THREE.BufferGeometry().setFromPoints( points );
 
 const material1 = new THREE.LineBasicMaterial( { color: 'white' } );
-
-// Create the final object to add to the scene
 const ellipse = new THREE.Line( geometry1, material1 );
 
 scene.add( ellipse );
