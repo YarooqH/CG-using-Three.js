@@ -1,12 +1,7 @@
 import * as THREE from './js/three.module.js';
 import { OrbitControls } from "./js/OrbitControls.js";
-// import * as THREEx from "./js/threex.domevents.js";
-// import * as initializeDomEvents from "./js/threex.domevents.js";
 import {initializeDomEvents} from "./js/threex.domevents.js";
 import * as TWEEN from './js/tween.esm.js';
-// import { Tween } from '@tweenjs/tween.js';
-
-// var initializeDomEvents = require('./js/threex.domevents.js');
 
 const camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 0.1, 1000 );
 camera.position.set( 0, 0, 0);
@@ -50,15 +45,8 @@ ring6.scale.set(0.8809,0.8809,0)
 const rainbow = new THREE.Group();
 rainbow.add( ring0, ring1, ring2, ring3, ring4, ring5, ring6 );
 
-// scene.add( rainbow );
-
 rainbow.scale.set(2,1.4,0)
 rainbow.position.set(0,-3,-0.25);
-
-// ring0.material.opacity = 0.3;
-// ring0.material.transparent = true;
-
-
 
 const cloudClr = '#686564';
 
@@ -72,7 +60,6 @@ sun.position.set(-6,3.1,-0.4)
 const cloudGeometry = new THREE.CircleGeometry( 0.5, 32 );
 const cloudMaterial = new THREE.MeshBasicMaterial( { color: cloudClr });
 const minicloud = new THREE.Mesh( cloudGeometry, cloudMaterial );
-// scene.add( cloud );
 
 const minicloud1 = new THREE.Mesh(
   new THREE.CircleGeometry( 0.52, 32),
@@ -106,45 +93,35 @@ minicloud5.position.set(1.2,-0.4,0);
 
 const cloudGrp = new THREE.Group();
 cloudGrp.add(minicloud1, minicloud2, minicloud3, minicloud4, minicloud5, minicloud);
-// scene.add(cloudGrp);
 cloudGrp.position.set(-3,0,0);
 
 const cloud2 = cloudGrp.clone();
-// scene.add( cloud2 );
 cloud2.scale.set(1.1,1.1, 0);
 cloud2.position.set(-1,0.6,0);
 
 const cloud3 = cloudGrp.clone();
-// scene.add( cloud3 );
 cloud3.scale.set(1.5,1.5, 0);
 cloud3.position.set(-3,1.2,0);
 
 const cloudGroup2 = new THREE.Group();
 cloudGroup2.add(cloudGrp, cloud2, cloud3);
-// scene.add(cloudGroup2);
 cloudGroup2.position.set(-4.29,1.95,0);
 cloudGroup2.scale.set(0.7,0.7,0);
 
 
 const cloudGroup3 = cloudGroup2.clone();
-// scene.add( cloudGroup3 );
 cloudGroup3.scale.set(0.7,0.7, 0);
-// cloudGroup3.rotation.y += 250;
 cloudGroup3.rotateZ(3.2);
 cloudGroup3.position.set(-5.6,2.5,0);
 
 const cloudGrpLeft = new THREE.Group();
 cloudGrpLeft.add(cloudGroup2, cloudGroup3);
-// scene.add(cloudGrpLeft);
 cloudGrpLeft.position.set(0,0.3,0);
-// cloudGrpLeft.
 
 const cloudGroup4 = cloudGrpLeft.clone();
-// scene.add( cloudGroup4 );
 cloudGroup4.position.set(3.1,0.3,0);
 
 const cloudGroup5 = cloudGrpLeft.clone();
-// scene.add( cloudGroup5 );
 cloudGroup5.position.set(5,0.3,0);
 
 const cloudLeft = new THREE.Group();
@@ -189,12 +166,10 @@ flag.position.set(0,-1.6,-0.2);
 flag.scale.set(0.8,0.8,0)
 scene.add(flag);
 
-// const letItRain = () => {
 const rainParticles = new THREE.BufferGeometry();
 const rainParticleCount = 5000;
 
 const rainArray = new Float32Array(rainParticleCount * 2);
-// rainParticles.position.set(0,0,0);
 
 for (let i = 0; i < rainParticleCount; i++) {
     rainArray[i * 2] = Math.random() * 15 - 1;
@@ -202,7 +177,6 @@ for (let i = 0; i < rainParticleCount; i++) {
 }
 
 rainParticles.setAttribute('position', new THREE.BufferAttribute(rainArray, 2));
-// rainParticles.setAttribute('width', new THREE.BufferAttribute(rainArray, 1));
 
 const rainMaterial = new THREE.PointsMaterial({
     color: 'rgb(89, 126, 248)',
@@ -217,10 +191,6 @@ const rain = new THREE.Points(rainParticles, rainMaterial);
 scene.add(rain);
 
 rain.position.set(-6.5,4,-0.3);
-
-// }
-
-// let lightIntensity = 1;
 
 // Add a point light with #fff color, .7 intensity, and 0 distance
 var light = new THREE.PointLight( 0xffffff, 1 , 0 );
@@ -244,8 +214,6 @@ domEvents.addEventListener(sun, 'click', event =>{
     cloudFunction(rainCheck);
 });
 
-// const flagClick = new THREEx.DomEvents(camera, renderer.domElement);
-
 camera.position.z = 3;
 
 let newTime = -4;
@@ -268,8 +236,6 @@ domEvents.addEventListener(mesh, 'click', event =>{
     anthemAudio.play();
     anthemFlag = true;
   }
-  // console.log('PAKISTAN ZINDABDA');
-  // anthemAudio.play();
 });
 
 intoScreenLeft = new TWEEN.Tween(cloudLeft.position)
@@ -350,24 +316,10 @@ const cloudFunction = (rainCheck) => {
 
 
 function animate(t) {
-    requestAnimationFrame( animate );
-    // let elapsedTime = clock.getElapsedTime();
-    // rain.position.y = elapsedTime * (-0.5);
-    // if(rain.position.y < -3) {
-        //     rain.position.y = 3;
-        // } 
-        // elapsedTime = clock.getElapsedTime();
-        // rain.position.y = elapsedTime * (-1);
-        TWEEN.update();
-        rainFunction(rainCheck);
-
-        
-    // rain.rotateZ()
-    
-    // cube.rotation.x += 0.03;
-    // cube.rotation.y += 0.01;
-    
-  renderer.render( scene, camera );
+    requestAnimationFrame( animate ); 
+    TWEEN.update();
+    rainFunction(rainCheck);    
+    renderer.render( scene, camera );
 };
 
 animate();
