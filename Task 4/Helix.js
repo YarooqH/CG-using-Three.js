@@ -33,7 +33,6 @@ let helix = new THREE.Line(geometry, material);
 
 scene.add(helix);
 helix.rotateX(5);
-// helix.rotateY(0);
 helix.position.set(0, 5, 0);
 
 function animate(){        

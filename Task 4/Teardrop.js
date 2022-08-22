@@ -26,19 +26,11 @@ var coordinatesList = [
     new THREE.Points(3, 3)
   ];
   
-  
-  // shape
-  var geomShape = new THREE.ShapeBufferGeometry(new THREE.Shape(coordinatesList));
-  var matShape = new THREE.MeshBasicMaterial({color:"blue"});
-  var shape = new THREE.Mesh(geomShape, matShape);
-  scene.add(shape);
-  
-  // points
-//   var geom = new THREE.BufferGeometry().setFromPoints(coordinatesList);
-//   var matPoints = new THREE.PointsMaterial({size: 0.55, color: "pink"});
-//   var points = new THREE.Points(geom, matPoints);
-//   scene.add(points);
-  
+var geomShape = new THREE.ShapeBufferGeometry(new THREE.Shape(coordinatesList));
+var matShape = new THREE.MeshBasicMaterial({color:"blue"});
+var shape = new THREE.Mesh(geomShape, matShape);
+scene.add(shape);
+
 
 function animate(){        
     requestAnimationFrame(animate);
